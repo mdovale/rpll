@@ -1,40 +1,41 @@
-# --- Python ---
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.pyo
 .Python
-.venv/
-venv/
-ENV/
+*.manifest
 *.egg-info/
 *.egg
 dist/
 build/
+eggs/
+.eggs
+.venv/
+venv/
+ENV/
+env/
 .pytest_cache/
 .coverage
 htmlcov/
 .tox/
 .mypy_cache/
+.ruff_cache/
+*.ipynb_checkpoints/
 
-# --- C / embedded (server/esw, server/sw) ---
+# -----------------------------------------------------------------------------
+# C / compiled (shared with server submodule and local builds)
+# -----------------------------------------------------------------------------
 *.o
 *.a
 *.so
 *.d
-server/esw/server
-server/esw/test_parse_command
-server/sw/client
 
-# --- Debian packaging (generated) ---
-server/esw/debian/debhelper-build-stamp
-server/esw/debian/files
-server/esw/debian/*.substvars
-server/esw/debian/*.debhelper
-server/esw/debian/.debhelper/
-server/esw/debian/*.docs
-
-# --- FPGA / Vivado (fpga) ---
+# -----------------------------------------------------------------------------
+# FPGA / Vivado / Xilinx
+# -----------------------------------------------------------------------------
 *.bin
 *.bit
 *.bif
@@ -42,7 +43,7 @@ server/esw/debian/*.docs
 *.log
 *.str
 .Xil/
-*.cache/
+*.cache
 *.hw
 *.runs/
 *.sim/
@@ -50,25 +51,26 @@ server/esw/debian/*.docs
 *.xpr.user
 *.wdb
 *.wcfg
-fpga/library/lib_src/.make_cores_*
-fpga/.build_*
 
-# --- Build ---
+# -----------------------------------------------------------------------------
+# Build outputs (this repo)
+# -----------------------------------------------------------------------------
+fpga/
 build-docker/
 build-cross/
+readout/
 
-# --- Analysis (timestamped run dirs; keep readme, rp_plot.py) ---
-analysis/20[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_*/
-
-# --- OS ---
+# -----------------------------------------------------------------------------
+# OS
+# -----------------------------------------------------------------------------
 .DS_Store
 Thumbs.db
 
-# --- Editors / temp ---
-*~
+# -----------------------------------------------------------------------------
+# IDEs / editors
+# -----------------------------------------------------------------------------
+.cursor/
+.vscode/
 *.swp
 *.swo
-*.swn
-
-# --- Cursor (session/plans; optional: remove if you want to track .cursor/rules) ---
-.cursor/
+*~

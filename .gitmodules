@@ -1,10 +1,10 @@
 [submodule "rpll_client"]
 	path = rpll_client
-	url = https://github.com/mdovale/rpll_client.git
+	url = git@github.com:mdovale/rpll_client.git
 
 [submodule "rpll_server"]
 	path = rpll_server
-	url = https://github.com/mdovale/rpll_server.git
+	url = git@github.com:mdovale/rpll_server.git
 
 [submodule "rpll_fpga"]
 	path = rpll_fpga
