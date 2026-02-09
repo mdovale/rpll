@@ -1,0 +1,74 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+.venv/
+venv/
+ENV/
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+
+# --- C / embedded (server/esw, server/sw) ---
+*.o
+*.a
+*.so
+*.d
+server/esw/server
+server/esw/test_parse_command
+server/sw/client
+
+# --- Debian packaging (generated) ---
+server/esw/debian/debhelper-build-stamp
+server/esw/debian/files
+server/esw/debian/*.substvars
+server/esw/debian/*.debhelper
+server/esw/debian/.debhelper/
+server/esw/debian/*.docs
+
+# --- FPGA / Vivado (fpga) ---
+*.bin
+*.bit
+*.bif
+*.jou
+*.log
+*.str
+.Xil/
+*.cache/
+*.hw
+*.runs/
+*.sim/
+*.ip_user_files/
+*.xpr.user
+*.wdb
+*.wcfg
+fpga/library/lib_src/.make_cores_*
+fpga/.build_*
+
+# --- Build ---
+build-docker/
+build-cross/
+
+# --- Analysis (timestamped run dirs; keep readme, rp_plot.py) ---
+analysis/20[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_*/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Editors / temp ---
+*~
+*.swp
+*.swo
+*.swn
+
+# --- Cursor (session/plans; optional: remove if you want to track .cursor/rules) ---
+.cursor/
