@@ -281,7 +281,7 @@ fetch_remote_bitstream() {
   fi
 }
 
-# Convert .bit to .bit.bin using bootgen (required for Red Pitaya OS 2.x+ FPGA Manager).
+# Convert .bit to .bit.bin using bootgen (required for RedPitaya OS 2.x+ FPGA Manager).
 # Output: fpga.bit.bin in the same directory as the input .bit file.
 convert_bit_to_bin() {
   local bit_path="$1"

@@ -25,7 +25,7 @@ usage() {
   cat <<EOF
 Usage: $(basename "$0") --target <rp125_14|rp250_12> --ip <address> [OPTIONS]
 
-Deploys FPGA bitstream to Red Pitaya OS 2.x+ using fpgautil -b (bitstream only).
+Deploys FPGA bitstream to RedPitaya OS 2.x+ using fpgautil -b (bitstream only).
 No device tree change; uses existing kernel configuration. Expects .bit.bin format.
 
 Options:
@@ -35,7 +35,7 @@ Options:
   --bitstream FILE      Explicit bitstream path (.bit.bin)
   --user USER           SSH user [default: root]
   --port PORT           SSH port [default: 22]
-  --fpgautil PATH       fpgautil path on Red Pitaya [default: /opt/redpitaya/bin/fpgautil]
+  --fpgautil PATH       fpgautil path on RedPitaya [default: /opt/redpitaya/bin/fpgautil]
   --no-program          Only copy bitstream, do not load FPGA
   --yes                 Skip confirmation prompts
   --help                Show this help
@@ -257,7 +257,7 @@ verify_fpga_state() {
   fi
 }
 
-echo -e "${GREEN}Deploying FPGA bitstream to Red Pitaya (fpgautil -b)...${NC}"
+echo -e "${GREEN}Deploying FPGA bitstream to RedPitaya (fpgautil -b)...${NC}"
 echo "Bitstream: $BITSTREAM_PATH"
 
 echo -e "${BLUE}Testing SSH connection...${NC}"
@@ -268,7 +268,7 @@ fi
 
 # Copy to /tmp (writable without remounting /opt)
 REMOTE_BITSTREAM="/tmp/fpga.bit.bin"
-echo -e "${BLUE}Copying bitstream to Red Pitaya...${NC}"
+echo -e "${BLUE}Copying bitstream to RedPitaya...${NC}"
 scp $SCP_OPTS "$BITSTREAM_PATH" "$TARGET_USER@$REDPITAYA_IP:$REMOTE_BITSTREAM"
 
 if [[ "$PROGRAM_FPGA" == "0" ]]; then
@@ -286,7 +286,7 @@ if [[ "$ASSUME_YES" == "0" ]]; then
 fi
 
 if ! ssh $SSH_OPTS "$TARGET_USER@$REDPITAYA_IP" "[ -x '$FPGAUTIL_PATH' ]"; then
-  echo -e "${RED}Error: fpgautil not found at $FPGAUTIL_PATH. Red Pitaya OS 2.x+ required.${NC}" >&2
+  echo -e "${RED}Error: fpgautil not found at $FPGAUTIL_PATH. RedPitaya OS 2.x+ required.${NC}" >&2
   exit 1
 fi
 
