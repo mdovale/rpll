@@ -23,8 +23,7 @@ The top-level build and deploy scripts in this repo target these directories.
 Clone the repository and all submodules in one go:
 
 ```bash
-git clone --recurse-submodules <repo-url>
-cd <repo-name>
+git clone --recurse-submodules git@github.com:mdovale/rpll.git
 ```
 
 You then have **rpll_fpga**, **rpll_server**, and **rpll_client** at the exact commits recorded in this repo, so the three layers stay in sync.
