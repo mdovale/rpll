@@ -1,7 +1,3 @@
-[submodule "rpll_client"]
-	path = rpll_client
-	url = git@github.com:mdovale/rpll_client.git
-
 [submodule "rpll_server"]
 	path = rpll_server
 	url = git@github.com:mdovale/rpll_server.git
