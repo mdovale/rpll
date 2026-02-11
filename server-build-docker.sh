@@ -187,16 +187,16 @@ run_build() {
     run_cmd+=(--platform "$DOCKER_PLATFORM")
   fi
   run_cmd+=("${docker_user_args[@]}" -v "$SCRIPT_DIR:/work" -w /work/rpll_server/esw "$IMAGE_REF")
-  # If a host artifact (e.g. Mach-O from macOS) exists at /work/rpll_server/esw/server,
-  # `make` may incorrectly think everything is up-to-date and skip rebuilding.
-  # Detect that case inside the container and force a clean rebuild.
+  # Always do a clean + forced rebuild.
+  # This avoids confusing "make: Nothing to be done for 'all'" cases and ensures
+  # the output binary is always freshly produced by the container toolchain.
   local build_make_cmd=""
   if [[ -n "$CFLAGADD" ]]; then
-    build_make_cmd="make -j $JOBS CC=arm-linux-gnueabihf-gcc CFLAGADD=\"${CFLAGADD}\""
+    build_make_cmd="make -B -j $JOBS CC=arm-linux-gnueabihf-gcc CFLAGADD=\"${CFLAGADD}\""
   else
-    build_make_cmd="make -j $JOBS CC=arm-linux-gnueabihf-gcc"
+    build_make_cmd="make -B -j $JOBS CC=arm-linux-gnueabihf-gcc"
   fi
-  run_cmd+=(bash -lc "if [[ -f server ]]; then t=\"\$(file server 2>/dev/null || true)\"; if ! echo \"\$t\" | grep -Eqi 'ELF.*(ARM|aarch64)'; then echo 'Existing ./server is not an ELF ARM binary; running make clean to force rebuild.' >&2; make clean; fi; fi; ${build_make_cmd} && cp server \"${container_build_dir}/server\"")
+  run_cmd+=(bash -lc "make clean >/dev/null 2>&1 || true; rm -f server; ${build_make_cmd} && cp server \"${container_build_dir}/server\"")
   "${run_cmd[@]}"
   if command -v file &>/dev/null; then
     built_type="$(file "$BUILD_DIR/server" 2>/dev/null || true)"
