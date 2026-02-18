@@ -20,6 +20,7 @@ SSH_PORT="22"
 PROGRAM_FPGA=1
 ASSUME_YES=0
 FPGAUTIL_PATH="/opt/redpitaya/bin/fpgautil"
+REMOTE_DIR="/root"
 
 usage() {
   cat <<EOF
@@ -36,6 +37,7 @@ Options:
   --user USER           SSH user [default: root]
   --port PORT           SSH port [default: 22]
   --fpgautil PATH       fpgautil path on RedPitaya [default: /opt/redpitaya/bin/fpgautil]
+  --remote-dir DIR      Target directory on RedPitaya [default: /root]
   --no-program          Only copy bitstream, do not load FPGA
   --yes                 Skip confirmation prompts
   --help                Show this help
@@ -44,6 +46,7 @@ Examples:
   ./fpga-deploy.sh --target rp125_14 --ip 169.254.97.245
   ./fpga-deploy.sh --target rp250_12 --ip rp-foo.local --bitstream ./fpga.bit.bin
   ./fpga-deploy.sh --target rp250_12 --ip 169.254.97.245 --no-program
+  ./fpga-deploy.sh --target rp125_14 --ip 169.254.97.245 --remote-dir /tmp
 EOF
 }
 
@@ -115,6 +118,11 @@ while [[ $# -gt 0 ]]; do
     --fpgautil)
       if [[ $# -lt 2 ]]; then echo -e "${RED}Error: --fpgautil requires an argument.${NC}" >&2; usage >&2; exit 1; fi
       FPGAUTIL_PATH="$2"
+      shift 2
+      ;;
+    --remote-dir)
+      if [[ $# -lt 2 ]]; then echo -e "${RED}Error: --remote-dir requires an argument.${NC}" >&2; usage >&2; exit 1; fi
+      REMOTE_DIR="$2"
       shift 2
       ;;
     --no-program)
@@ -266,8 +274,10 @@ if ! ssh $SSH_OPTS -o ConnectTimeout=5 "$TARGET_USER@$REDPITAYA_IP" "echo ok" &>
   exit 1
 fi
 
-# Copy to /tmp (writable without remounting /opt)
-REMOTE_BITSTREAM="/tmp/fpga.bit.bin"
+# Copy to target directory preserving original filename
+# Normalize REMOTE_DIR (remove trailing slash if present)
+REMOTE_DIR="${REMOTE_DIR%/}"
+REMOTE_BITSTREAM="$REMOTE_DIR/$(basename "$BITSTREAM_PATH")"
 echo -e "${BLUE}Copying bitstream to RedPitaya...${NC}"
 scp $SCP_OPTS "$BITSTREAM_PATH" "$TARGET_USER@$REDPITAYA_IP:$REMOTE_BITSTREAM"
 
